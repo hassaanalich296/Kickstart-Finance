@@ -12,7 +12,7 @@ options = st.sidebar.selectbox("Single Out", ('Twitter', 'WSB', 'Stocktwit Picks
 st.subheader(options)
 
 if options == 'Twitter':
-    st.write('hello')
+    st.write('hi')
 
 if options == 'WSB':
     st.write('hey')
