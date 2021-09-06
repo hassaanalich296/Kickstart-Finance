@@ -5,3 +5,6 @@ psycopg2
 requests
 tweepy
 numpy
+prophet
+yfinance
+pystan
