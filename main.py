@@ -89,8 +89,8 @@ if options == 'Charts':
         <script type="text/javascript">
         new TradingView.widget(
         {
-        "width": 900,
-        "height": 610,
+        "width": 2000,
+        "height": 1000,
         "symbol": "NASDAQ:AAPL",
         "interval": "D",
         "timezone": "Etc/UTC",
@@ -113,8 +113,8 @@ if options == 'Charts':
         </div>
         <!-- TradingView Widget END -->
         """,
-        height=610,
-        width=900,
+        height=1000,
+        width=2000,
     )
 
 if options == 'Forecasting':
