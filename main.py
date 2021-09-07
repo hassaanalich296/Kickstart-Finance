@@ -10,6 +10,7 @@ import requests
 import tweepy
 import config
 import streamlit.components.v1 as components
+import FundamentalAnalysis as fa
 
 st.title("Kickstart Finance")
 st.sidebar.title("DashBoard")
@@ -18,9 +19,240 @@ auth = tweepy.OAuthHandler(config.TWITTER_CONSUMER_KEY, config.TWITTER_CONSUMER_
 auth.set_access_token(config.TWITTER_ACCESS_TOKEN, config.TWITTER_ACCESS_TOKEN_SECRET)
 api = tweepy.API(auth)
 
-options = st.sidebar.selectbox("Single Out", ('Twitter', 'Stocktwit Picks', 'Charts', 'Forecasting'))
+options = st.sidebar.selectbox("Single Out", ('Market Overview', 'Twitter', 'Stocktwit Picks', 'Charts', 'Forecasting', 'Fundamentals'))
 
 st.subheader(options)
+
+if options == 'Market Overview':
+
+    components.html("""
+            <!-- TradingView Widget BEGIN -->
+        <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com" rel="noopener" target="_blank"><span class="blue-text">Ticker Tape</span></a> by TradingView</div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+        {
+        "symbols": [
+            {
+            "proName": "FOREXCOM:SPXUSD",
+            "title": "S&P 500"
+            },
+            {
+            "proName": "FOREXCOM:NSXUSD",
+            "title": "Nasdaq 100"
+            },
+            {
+            "proName": "FX_IDC:EURUSD",
+            "title": "EUR/USD"
+            },
+            {
+            "proName": "BITSTAMP:BTCUSD",
+            "title": "BTC/USD"
+            },
+            {
+            "proName": "BITSTAMP:ETHUSD",
+            "title": "ETH/USD"
+            }
+        ],
+        "showSymbolLogo": true,
+        "colorTheme": "dark",
+        "isTransparent": false,
+        "displayMode": "adaptive",
+        "locale": "en"
+        }
+        </script>
+        </div>
+        <!-- TradingView Widget END -->
+    """,
+        height=60,
+        width=1608,)
+    
+    components.html("""
+        <!-- TradingView Widget BEGIN -->
+        <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/markets/" rel="noopener" target="_blank"><span class="blue-text">Financial Markets</span></a> by TradingView</div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-quotes.js" async>
+        {
+        "width": 1600,
+        "height": 450,
+        "symbolsGroups": [
+            {
+            "name": "Indices",
+            "originalName": "Indices",
+            "symbols": [
+                {
+                "name": "FOREXCOM:SPXUSD",
+                "displayName": "S&P 500"
+                },
+                {
+                "name": "FOREXCOM:NSXUSD",
+                "displayName": "Nasdaq 100"
+                },
+                {
+                "name": "FOREXCOM:DJI",
+                "displayName": "Dow 30"
+                },
+                {
+                "name": "INDEX:NKY",
+                "displayName": "Nikkei 225"
+                },
+                {
+                "name": "INDEX:DEU30",
+                "displayName": "DAX Index"
+                },
+                {
+                "name": "FOREXCOM:UKXGBP",
+                "displayName": "UK 100"
+                }
+            ]
+            },
+            {
+            "name": "Commodities",
+            "originalName": "Commodities",
+            "symbols": [
+                {
+                "name": "CME_MINI:ES1!",
+                "displayName": "S&P 500"
+                },
+                {
+                "name": "CME:6E1!",
+                "displayName": "Euro"
+                },
+                {
+                "name": "COMEX:GC1!",
+                "displayName": "Gold"
+                },
+                {
+                "name": "NYMEX:CL1!",
+                "displayName": "Crude Oil"
+                },
+                {
+                "name": "NYMEX:NG1!",
+                "displayName": "Natural Gas"
+                },
+                {
+                "name": "CBOT:ZC1!",
+                "displayName": "Corn"
+                }
+            ]
+            },
+            {
+            "name": "Bonds",
+            "originalName": "Bonds",
+            "symbols": [
+                {
+                "name": "CME:GE1!",
+                "displayName": "Eurodollar"
+                },
+                {
+                "name": "CBOT:ZB1!",
+                "displayName": "T-Bond"
+                },
+                {
+                "name": "CBOT:UB1!",
+                "displayName": "Ultra T-Bond"
+                },
+                {
+                "name": "EUREX:FGBL1!",
+                "displayName": "Euro Bund"
+                },
+                {
+                "name": "EUREX:FBTP1!",
+                "displayName": "Euro BTP"
+                },
+                {
+                "name": "EUREX:FGBM1!",
+                "displayName": "Euro BOBL"
+                }
+            ]
+            },
+            {
+            "name": "Forex",
+            "originalName": "Forex",
+            "symbols": [
+                {
+                "name": "FX:EURUSD"
+                },
+                {
+                "name": "FX:GBPUSD"
+                },
+                {
+                "name": "FX:USDJPY"
+                },
+                {
+                "name": "FX:USDCHF"
+                },
+                {
+                "name": "FX:AUDUSD"
+                },
+                {
+                "name": "FX:USDCAD"
+                }
+            ]
+            }
+        ],
+        "showSymbolLogo": true,
+        "colorTheme": "dark",
+        "isTransparent": false,
+        "locale": "en"
+        }
+        </script>
+        </div>
+        <!-- TradingView Widget END -->
+        """,
+        height=430,
+        width=1600,)
+    components.html("""
+        <!-- TradingView Widget BEGIN -->
+        <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/markets/currencies/forex-cross-rates/" rel="noopener" target="_blank"><span class="blue-text">Exchange Rates</span></a> by TradingView</div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-forex-cross-rates.js" async>
+        {
+        "width": 1600,
+        "height": 400,
+        "currencies": [
+            "EUR",
+            "USD",
+            "JPY",
+            "GBP",
+            "CHF",
+            "AUD",
+            "CAD",
+            "NZD",
+            "CNY"
+        ],
+        "isTransparent": false,
+        "colorTheme": "dark",
+        "locale": "en"
+        }
+        </script>
+        </div>
+        <!-- TradingView Widget END -->
+        """,
+        height=380,
+        width=1600,)
+    components.html("""
+        <!-- TradingView Widget BEGIN -->
+        <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/markets/currencies/economic-calendar/" rel="noopener" target="_blank"><span class="blue-text">Economic Calendar</span></a> by TradingView</div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-events.js" async>
+        {
+        "colorTheme": "dark",
+        "isTransparent": false,
+        "width": "1600",
+        "height": "600",
+        "locale": "en",
+        "importanceFilter": "-1,0,1"
+        }
+        </script>
+        </div>
+        <!-- TradingView Widget END -->
+        """,
+        height=590,
+        width=1600,)
 
 if options == 'Twitter':
     
@@ -89,7 +321,7 @@ if options == 'Charts':
         <script type="text/javascript">
         new TradingView.widget(
         {
-        "width": 2000,
+        "width": 1600,
         "height": 1000,
         "symbol": "NASDAQ:AAPL",
         "interval": "D",
@@ -113,8 +345,8 @@ if options == 'Charts':
         </div>
         <!-- TradingView Widget END -->
         """,
-        height=1000,
-        width=2000,
+        height=980,
+        width=1600,
     )
 
 if options == 'Forecasting':
@@ -168,3 +400,32 @@ if options == 'Forecasting':
     st.subheader('Forecast Components')
     fig2 = m.plot_components(forecast)
     st.write(fig2)
+
+if options == 'Fundamentals':
+
+    stocks = st.sidebar.text_input("Ticker", value='AAPL')
+    
+    components.html(
+        """
+        <!-- TradingView Widget BEGIN -->
+        <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/NASDAQ-AAPL/financials-overview/" rel="noopener" target="_blank"><span class="blue-text">AAPL Fundamental Data</span></a> by TradingView</div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-financials.js" async>
+        {
+        "symbol": "NASDAQ:AAPL",
+        "colorTheme": "dark",
+        "isTransparent": false,
+        "largeChartUrl": "",
+        "displayMode": "regular",
+        "width": "1600",
+        "height": "830",
+        "locale": "en"
+        }
+        </script>
+        </div>
+        <!-- TradingView Widget END -->
+                """,
+        height=820,
+        width=1600,
+    )
